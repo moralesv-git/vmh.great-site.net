@@ -1,0 +1,24 @@
+name: Deploy to vmh.great-site.net # 1.Cambiar
+
+on:
+    workflow_dispatch: # Uncomment below to deploy on push instead
+    push:
+        branches:
+            main
+jobs:
+    deploy:
+        name: Deploy to vmh.great-site.net # 2.Cambiar
+        runs-on: ubuntu-latest
+    steps:
+        name: Get latest code
+        uses: actions/checkout@v4
+        
+        name: Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+            server: ftpupload.net # 3.Change if using another host (ver de InfinityFree)
+            username: ${{ secrets.FTP_USERNAME }}
+            password: ${{ secrets.FTP_PASSWORD }}
+            server-dir: /vmh.great-site.org/htdocs/ #4.Si SOLO UN dominio escribe /htdocs/ (con las dos diagonales) solamente
+            retries: 3
+            retryDelay: 10
